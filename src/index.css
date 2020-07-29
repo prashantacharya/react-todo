@@ -56,3 +56,13 @@ button:focus {
 .clear-btn:hover {
   background-color: #d75b62;
 }
+
+.search-form {
+  margin-top: 20px;
+}
+
+.search-form input {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+}

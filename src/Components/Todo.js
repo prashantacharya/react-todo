@@ -58,6 +58,12 @@ class Todo extends Component {
     });
   };
 
+  handleSearchInputChange = (event) => {
+    this.setState({
+      searchKeyword: event.target.value,
+    });
+  };
+
   render() {
     const completedTasks = this.state.todos.filter((todo) => todo.completed)
       .length;
@@ -90,6 +96,18 @@ class Todo extends Component {
           visibility={this.state.visibility}
           toggleVisibility={this.toggleVisibility}
         />
+
+        {this.state.todos.length > 0 && (
+          <div className="search-form">
+            <label>Search Todos</label>
+            <br />
+            <input
+              value={this.state.searchKeyword}
+              onChange={this.handleSearchInputChange}
+              placeholder="Eg: Dance"
+            />
+          </div>
+        )}
 
         <TodoList
           todoList={todos}
