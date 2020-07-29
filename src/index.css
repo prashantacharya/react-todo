@@ -38,3 +38,21 @@ h1 {
   font-size: 48px;
   font-weight: 600;
 }
+
+button:focus {
+  outline: none;
+}
+
+.clear-btn {
+  margin-top: 20px;
+  background-color: var(--error-color);
+  color: var(--primary-white);
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clear-btn:hover {
+  background-color: #d75b62;
+}

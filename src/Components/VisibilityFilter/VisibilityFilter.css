@@ -1,0 +1,22 @@
+.visibility-filters {
+  margin-top: 20px;
+}
+
+.visibility-filters button {
+  padding: 10px;
+  margin-right: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--primary-black);
+  color: var(--primary-white);
+  border-radius: 5px;
+}
+
+.visibility-filters button:hover {
+  background-color: #4b5558;
+}
+
+.visibility-filters .selected {
+  background-color: var(--purple);
+}

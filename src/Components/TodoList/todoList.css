@@ -23,8 +23,12 @@ li button {
   cursor: pointer;
 }
 
-li button:first-child {
+li button {
   margin-right: 15px;
+}
+
+li button:last-child {
+  margin-right: 0;
 }
 
 .complete {

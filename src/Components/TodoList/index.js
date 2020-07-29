@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { TiTick, TiTimes } from 'react-icons/ti';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+
 import './todoList.css';
 
 class TodoList extends Component {
   render() {
     return (
       <ul className="todo-list">
-        {this.props.todoList.map((todo, index) => (
+        {this.props.todoList.map((todo) => (
           <TodoItem
-            key={index}
-            index={index}
+            key={todo.id}
             item={todo}
             removeTodo={this.props.removeTodo}
             changeTodoStatus={this.props.changeTodoStatus}
@@ -21,21 +22,29 @@ class TodoList extends Component {
   }
 }
 
-function TodoItem({ item, index, removeTodo, changeTodoStatus }) {
+function TodoItem({ item, removeTodo, changeTodoStatus }) {
+  const [isPriortized, setIsPriortized] = useState(false);
   const todoClass = item.completed ? 'complete' : 'incomplete';
 
   const handleDelete = () => {
-    removeTodo(index);
+    removeTodo(item.id);
   };
 
   const handleStatusChange = () => {
-    changeTodoStatus(index);
+    changeTodoStatus(item.id);
+  };
+
+  const handlePriorityChange = () => {
+    setIsPriortized(!isPriortized);
   };
 
   return (
     <li className={todoClass}>
       <span>{item.value}</span>
       <div>
+        <button onClick={handlePriorityChange}>
+          {isPriortized ? <AiFillStar /> : <AiOutlineStar />}
+        </button>
         <button onClick={handleDelete}>
           <RiDeleteBin6Line />
         </button>
