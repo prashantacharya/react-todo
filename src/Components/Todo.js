@@ -4,35 +4,45 @@ import TodoList from './TodoList';
 
 import './todo.css';
 import VisibilityFilter from './VisibilityFilter';
+import { getFromLocalStorage, saveToLocalStorage } from '../Utils/localstorage';
 
 class Todo extends Component {
   constructor() {
     super();
     this.state = {
-      todos: [
-        {
-          id: 1,
-          completed: false,
-          value: 'test',
-        },
-      ],
+      todos: [],
       visibility: 'all',
       searchKeyword: '',
     };
   }
 
+  componentDidMount() {
+    const storedItem = getFromLocalStorage('todos');
+    this.setState({
+      todos: storedItem || [],
+    });
+  }
+
   insertTodo = (text) => {
     const newTodo = { id: Date.now(), value: text, completed: false };
-    this.setState({
-      todos: [...this.state.todos, newTodo],
-    });
+    this.setState(
+      (state) => ({ todos: [...state.todos, newTodo] }),
+      () => {
+        saveToLocalStorage('todos', this.state.todos);
+      }
+    );
   };
 
   removeTodo = (id) => {
     const updatedTodos = this.state.todos.filter((todo) => todo.id !== id);
-    this.setState({
-      todos: updatedTodos,
-    });
+    this.setState(
+      {
+        todos: updatedTodos,
+      },
+      () => {
+        saveToLocalStorage('todos', this.state.todos);
+      }
+    );
   };
 
   changeTodoStatus = (id) => {
@@ -41,9 +51,14 @@ class Todo extends Component {
       else return { ...todo, completed: !todo.completed };
     });
 
-    this.setState({
-      todos: updatedTodos,
-    });
+    this.setState(
+      {
+        todos: updatedTodos,
+      },
+      () => {
+        saveToLocalStorage('todos', this.state.todos);
+      }
+    );
   };
 
   toggleVisibility = (visibility) => {
@@ -53,9 +68,14 @@ class Todo extends Component {
   };
 
   clearTodos = () => {
-    this.setState({
-      todos: [],
-    });
+    this.setState(
+      {
+        todos: [],
+      },
+      () => {
+        saveToLocalStorage('todos', this.state.todos);
+      }
+    );
   };
 
   handleSearchInputChange = (event) => {
@@ -92,10 +112,12 @@ class Todo extends Component {
           {this.state.todos.length === 1 ? 'job' : 'jobs'}.
         </p>
 
-        <VisibilityFilter
-          visibility={this.state.visibility}
-          toggleVisibility={this.toggleVisibility}
-        />
+        {this.state.todos.length > 0 && (
+          <VisibilityFilter
+            visibility={this.state.visibility}
+            toggleVisibility={this.toggleVisibility}
+          />
+        )}
 
         {this.state.todos.length > 0 && (
           <div className="search-form">
@@ -115,7 +137,7 @@ class Todo extends Component {
           changeTodoStatus={this.changeTodoStatus}
         />
 
-        {todos.length > 0 && (
+        {this.state.todos.length > 0 && (
           <button className="clear-btn" onClick={this.clearTodos}>
             Clear All
           </button>
